@@ -1,0 +1,31 @@
+<html>
+<head>
+</head>
+<body style="background: transparent;">
+    <script src="scripts/docstrap.lib.js"></script>
+    <script src="scripts/lunr.min.js"></script>
+    <script src="scripts/fulltext-search.js"></script>
+
+    <script type="text/x-docstrap-searchdb">
+    {"main.js.html":{"id":"main.js.html","title":"Source: main.js","body":" Documentation Classes FarrThis Source: main.js // ESM syntax is supported. import { Farr } from 'farr' import isIterable from 'is-iterable' /** * Arrays of functions with shared 'this' properties. */ class FarrThis extends Farr { /** * o - an object shared by all bound function elements * @memberof FarrThis# * @name o */ o = {} #P #funcWrapper = (w, i) =&gt; { let f = typeof w === 'function' ? w : function () { return w } // console.log(f) f = f.bind(Object.defineProperties({ f, i, a: this.#P }, { o: { get: () =&gt; this.o } })) return f } /** * constructor - create a FarrThis instance that can contain bound functions, where each function's this value is a plain object with some common parameters: * * 1. `a`: the containing instance (`FarrThis`) * 2. `i`: the index of this element in the containing instance (`integer`) * 3. `f`: a reference to this element (`function`) * 4. `o`: any user-specified object, also accessible as the `o` property of the containing instance ('object') * * * @param {(object|iterable|number)} [p = { a: [], o: {} }] if a number, creates instance of that length. if an iterable, use its elements to generate new bound functions * @param {iterable} p.a iterable source for generating elements * @param {object} p.o object to use for shared this binding */ constructor (p = { a: [], o: {} }) { if (typeof p === 'number') { super(p) return } else { super() } p = isIterable(p) ? { a: p } : p this.#P = new Proxy(this, { set (target, prop, value) { if (Farr.isSafeIndex(prop)) { return Reflect.set(target, prop, target.#funcWrapper(value, parseInt(prop))) } return Reflect.set(target, prop, value) }, get (target, prop, value) { if (Farr.nonTerminalKeys.includes(prop)) { return (...args) =&gt; { target[prop](...args) return target.#P } } return Reflect.get(target, prop, value) } }) this.o = typeof p.o === 'object' ? p.o : this.o const arr = isIterable(p.a) ? Array.from(p.a) : [] for (let x of arr) { this.#P.push(x) } return this.#P } } export { FarrThis, Farr } × Search results Close "},"classes.list.html":{"id":"classes.list.html","title":"Classes","body":" Documentation Classes FarrThis Classes Classes FarrThis × Search results Close "},"index.html":{"id":"index.html","title":"Index","body":" Documentation Classes FarrThis — farr-this — Documentation Arrays of bound functions with shared this parameters. This module exports a class FarrThis, that extends the native Array class (via its parent class Farr). Anytime an array-index-valued property of a FarrThis is set, the provided value gets filtered: If the value is a function, it's bound. If the value is not a function, it's replaced by a new bound function that produces the value when called. This means that FarrThis arrays only store bound function elements or empty slots. this Binding Each function element has a bound this property corresponding to a plain object with some common parameters: a: the containing instance (FarrThis) i: the index of this element in the containing instance (integer) f: a reference to this element (function) o: any user-specified object, also accessible as the o property of the containing instance ('object') Farr For convienience, this module also exports its parent class, Farr). Installation Run npm install farr-this Usage import { FarrThis as Ft } from 'farr' const n = 5 function e () { return this.i } const a = new Array(n).fill(e) const f = new Ft({ a }) f.push(e) const result = await f.all() // [ 0, 1, 2, 3, 4, 5 ] Testing Run npm test. This will also trigger a download of the tests from the farr dependency. These tests will be stored and run in the test/farrtest directory, so don't put anything there. × Search results Close "},"FarrThis.html":{"id":"FarrThis.html","title":"Class: FarrThis","body":" Documentation Classes FarrThis Class: FarrThis FarrThis Arrays of functions with shared 'this' properties. new FarrThis( [p]) constructor - create a FarrThis instance that can contain bound functions, where each function's this value is a plain object with some common parameters: a: the containing instance (FarrThis) i: the index of this element in the containing instance (integer) f: a reference to this element (function) o: any user-specified object, also accessible as the o property of the containing instance ('object') Parameters: Name Type Argument Default Description p object | iterable | number &lt;optional&gt; { a: [], o: {} } if a number, creates instance of that length. if an iterable, use its elements to generate new bound functions Properties Name Type Description a iterable iterable source for generating elements o object object to use for shared this binding Source: main.js, line 46 Members o o - an object shared by all bound function elements Source: main.js, line 9 × Search results Close "}}
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            Searcher.init();
+        });
+
+        $(window).on("message", function(msg) {
+            var msgData = msg.originalEvent.data;
+
+            if (msgData.msgid != "docstrap.quicksearch.start") {
+                return;
+            }
+
+            var results = Searcher.search(msgData.searchTerms);
+
+            window.parent.postMessage({"results": results, "msgid": "docstrap.quicksearch.done"}, "*");
+        });
+    </script>
+</body>
+</html>
