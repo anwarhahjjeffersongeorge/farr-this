@@ -21,6 +21,10 @@
   "keywords": [
     "farr-this"
   ],
+  "files": [
+    "/src/**/*",
+    "UNLICENSE"
+  ],
   "license": "Unlicense",
   "main": "./src/index.js",
   "module": "./src/main.js",
