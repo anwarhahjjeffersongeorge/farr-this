@@ -37,9 +37,9 @@
   "scripts": {
     "clean": "rm -rf .nyc_output coverage docs test/farrtest",
     "coverage": "codecov",
-    "prefarrtest": "rm -rf test/farrtest && mkdir test/farrtest && svn export --force $(npm view farr repository.url | sed -e s/^git\\+//)/trunk/test test/farrtest",
-    "farrtest": "replace-in-file --configFile=test/farrtest-replace-config.js",
-    "pretest": "npm run farrtest && clear && standard --fix \"index.js\" \"main.js\" | snazzy",
+    "pregetfarrtest": "rm -rf test/farrtest && mkdir test/farrtest && svn export --force $(npm view farr repository.url | sed -e s/^git\\+//)/trunk/test test/farrtest",
+    "getfarrtest": "replace-in-file --configFile=test/farrtest-replace-config.js",
+    "pretest": "npm run getfarrtest && clear && standard --fix \"index.js\" \"main.js\" | snazzy",
     "test": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=html ava",
     "prewtest": "npm run farrtest",
     "wtest": "ava --watch",
