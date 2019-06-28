@@ -2,7 +2,7 @@
   "author": "Anwar Hahj Jefferson-George <anwarhahjjeffersongeorge@gmail.com>",
   "dependencies": {
     "esm": "^3.2.25",
-    "farr": "^1.0.13",
+    "farr": "^1.2.0",
     "is-iterable": "^1.1.1"
   },
   "description": "Arrays of _bound_ functions with shared `this` parameters.",
@@ -38,10 +38,10 @@
     "clean": "rm -rf .nyc_output coverage docs test/farrtest",
     "coverage": "codecov",
     "pregetfarrtest": "rm -rf test/farrtest && mkdir test/farrtest && svn export --force $(npm view farr repository.url | sed -e s/^git\\+//)/trunk/test test/farrtest",
-    "getfarrtest": "replace-in-file --configFile=test/farrtest-replace-config.js",
+    "getfarrtest": "rm \"test/farrtest/isWrapped isUnwrapped.test.js\" && replace-in-file --configFile=test/farrtest-replace-config.js",
     "pretest": "npm run getfarrtest && clear && standard --fix \"index.js\" \"main.js\" | snazzy",
     "test": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=html ava",
-    "prewtest": "npm run farrtest",
+    "prewtest": "npm run getfarrtest",
     "wtest": "ava --watch",
     "preversion": "npm test && npm run doc",
     "postversion": "git push",

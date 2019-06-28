@@ -7,7 +7,8 @@
 
 # &mdash; `farr-this` &mdash;
 
-### [Documentation](https://anwarhahjjeffersongeorge.github.io/farr-this/)
+### Documentation
+Please see: [Documentation](https://anwarhahjjeffersongeorge.github.io/farr-this/)
 
 ### Arrays of _bound_ functions with shared `this` parameters.
 
@@ -51,3 +52,9 @@ Run `npm install farr-this`
 ## Testing
 
 Run `npm test`. This will also trigger a download of the tests from the `farr` dependency. These tests will be stored and run in the `test/farrtest` directory, so don't put anything there.
+
+## Incompatibilities
+The following features of `farr` are incompatible with `farr-this`:
+
+- `generated`: all elements undergo mutation
+- `givenFunc`: all elements undergo mutation

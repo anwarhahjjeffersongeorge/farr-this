@@ -13,7 +13,9 @@ class FarrThis extends Farr {
    */
   o = {}
   #P
+  #premapper = null
   #funcWrapper = (w, i) => {
+    w = typeof this.#premapper === 'function' ? this.#premapper(w) : w
     let f = typeof w === 'function' ? w : function () {
       return w
     }
@@ -29,7 +31,7 @@ class FarrThis extends Farr {
     }))
     return f
   }
-
+  #unsupportedInheritances = ['generated', 'givenFunc']
   /**
    * constructor - create a FarrThis instance that can contain bound functions, where each function's this value is a plain object with some common parameters:
    *
@@ -60,8 +62,13 @@ class FarrThis extends Farr {
       },
       get (target, prop, value) {
         if (Farr.nonTerminalKeys.includes(prop)) {
+          // console.log(prop)
           return (...args) => {
-            target[prop](...args)
+            if (prop === 'premap') {
+              target.#premapper = typeof args[0] === 'function' ? args[0] : null
+            } else {
+              target[prop](...args)
+            }
             return target.#P
           }
         }
